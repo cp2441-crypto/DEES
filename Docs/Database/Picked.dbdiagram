@@ -3,8 +3,910 @@
   "darkMode": true,
   "gridEnabling": false,
   "detailLevel": "All",
-  "tablePositions": [],
+  "tablePositions": [
+    {
+      "name": "EndUser",
+      "schemaName": "public",
+      "x": 0,
+      "y": 50
+    },
+    {
+      "name": "Owner",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 50
+    },
+    {
+      "name": "Master",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 50
+    },
+    {
+      "name": "UserAddress",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 50
+    },
+    {
+      "name": "BankAccount",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 50
+    },
+    {
+      "name": "Store",
+      "schemaName": "public",
+      "x": 0,
+      "y": 516
+    },
+    {
+      "name": "StoreImage",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 484
+    },
+    {
+      "name": "StoreDeliveryFee",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 356
+    },
+    {
+      "name": "Event",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 516
+    },
+    {
+      "name": "Coupon",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 420
+    },
+    {
+      "name": "UserCoupon",
+      "schemaName": "public",
+      "x": 0,
+      "y": 1046
+    },
+    {
+      "name": "Category",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 726
+    },
+    {
+      "name": "Product",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 662
+    },
+    {
+      "name": "EventProduct",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 854
+    },
+    {
+      "name": "ProductTag",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 950
+    },
+    {
+      "name": "ProductTagMapping",
+      "schemaName": "public",
+      "x": 0,
+      "y": 1352
+    },
+    {
+      "name": "Cart",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 1032
+    },
+    {
+      "name": "CartItem",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 1160
+    },
+    {
+      "name": "Order",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 1064
+    },
+    {
+      "name": "OrderItem",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 1160
+    },
+    {
+      "name": "Shipping",
+      "schemaName": "public",
+      "x": 0,
+      "y": 1530
+    },
+    {
+      "name": "Payment",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 1242
+    },
+    {
+      "name": "Refund",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 1402
+    },
+    {
+      "name": "Settlement",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 1658
+    },
+    {
+      "name": "Review",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 1498
+    },
+    {
+      "name": "ReviewImage",
+      "schemaName": "public",
+      "x": 0,
+      "y": 1900
+    },
+    {
+      "name": "QnA",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 1516
+    },
+    {
+      "name": "FAQ",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 1772
+    },
+    {
+      "name": "Notification",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 1996
+    },
+    {
+      "name": "AuthLog",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 1900
+    },
+    {
+      "name": "AdminLog",
+      "schemaName": "public",
+      "x": 0,
+      "y": 2142
+    },
+    {
+      "name": "Banner",
+      "schemaName": "public",
+      "x": 302.80859375,
+      "y": 1982
+    },
+    {
+      "name": "Popup",
+      "schemaName": "public",
+      "x": 620.29931640625,
+      "y": 2046
+    },
+    {
+      "name": "Report",
+      "schemaName": "public",
+      "x": 908.60791015625,
+      "y": 2366
+    },
+    {
+      "name": "DailyStat",
+      "schemaName": "public",
+      "x": 1247.29345703125,
+      "y": 2174
+    }
+  ],
   "tableGroupCollapseStates": [],
   "stickyNoteLayouts": [],
-  "referencePaths": []
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "UserAddress",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Owner",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "owner_id"
+      ],
+      "secondTableName": "BankAccount",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Owner",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "owner_id"
+      ],
+      "secondTableName": "Store",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "StoreImage",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "StoreDeliveryFee",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "Coupon",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "UserCoupon",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Coupon",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "coupon_id"
+      ],
+      "secondTableName": "UserCoupon",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Category",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "parent_id"
+      ],
+      "secondTableName": "Category",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "Product",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Category",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "category_id"
+      ],
+      "secondTableName": "Product",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Event",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "event_id"
+      ],
+      "secondTableName": "EventProduct",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Product",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "EventProduct",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Product",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "ProductTagMapping",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "ProductTag",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "tag_id"
+      ],
+      "secondTableName": "ProductTagMapping",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "Cart",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Cart",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "cart_id"
+      ],
+      "secondTableName": "CartItem",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Product",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "CartItem",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "Order",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "Order",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "UserCoupon",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_coupon_id"
+      ],
+      "secondTableName": "Order",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Order",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "OrderItem",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Product",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "OrderItem",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Order",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "Shipping",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Order",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "Payment",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Payment",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "payment_id"
+      ],
+      "secondTableName": "Refund",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Order",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "order_id"
+      ],
+      "secondTableName": "Refund",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "Settlement",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "OrderItem",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "order_item_id"
+      ],
+      "secondTableName": "Review",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "Review",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "Review",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Product",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "Review",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Review",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "review_id"
+      ],
+      "secondTableName": "ReviewImage",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "QnA",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Product",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "product_id"
+      ],
+      "secondTableName": "QnA",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "QnA",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Owner",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "answered_by"
+      ],
+      "secondTableName": "QnA",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "FAQ",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_id"
+      ],
+      "secondTableName": "Notification",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "target_store_id"
+      ],
+      "secondTableName": "Notification",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Master",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "master_id"
+      ],
+      "secondTableName": "AdminLog",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Master",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "created_by"
+      ],
+      "secondTableName": "Banner",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Master",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "created_by"
+      ],
+      "secondTableName": "Popup",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "EndUser",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "reporter_id"
+      ],
+      "secondTableName": "Report",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Master",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "reviewed_by"
+      ],
+      "secondTableName": "Report",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "Store",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "store_id"
+      ],
+      "secondTableName": "DailyStat",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
 }

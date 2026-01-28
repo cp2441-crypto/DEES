@@ -1,0 +1,485 @@
+// ============================================
+// 먹신사(리그 오브 디저트) ERD v1.4 (Integrated)
+// 작성자: CTO & AI Engineer
+// 작성일: 2026-01-29
+// 내용: 회원분리 + 쿠폰/할인/기획전(마켓컬리 정책) 통합 버전
+// ============================================
+
+// --------------------------------------------
+// [1] 회원 (EndUser / Owner / Master)
+// --------------------------------------------
+
+Table EndUser {
+  id bigint [pk, increment]
+  login_id varchar(20) [unique, not null, note: '고객용 아이디']
+  password varchar(255) [not null, note: 'bcrypt']
+  nickname varchar(20) [not null]
+  phone varchar(20) [not null, note: 'Base64 (Dev)']
+  email varchar(100) [note: 'Base64 (Dev)']
+  profile_icon varchar(10)
+  status varchar(10) [not null, default: 'ACTIVE', note: 'ACTIVE, SUSPENDED, DELETED']
+  last_login_at datetime
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  deleted_at datetime
+}
+
+Table Owner {
+  id bigint [pk, increment]
+  login_id varchar(20) [unique, not null, note: '점주용 아이디']
+  password varchar(255) [not null, note: 'bcrypt']
+  owner_name varchar(20) [not null, note: '점주 실명']
+  phone varchar(20) [not null, note: 'Base64 (Dev)']
+  email varchar(100) [note: '세금계산서용 등']
+  status varchar(10) [not null, default: 'PENDING', note: 'PENDING(승인대기), ACTIVE, SUSPENDED, DELETED']
+  last_login_at datetime
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  deleted_at datetime
+}
+
+Table Master {
+  id bigint [pk, increment]
+  login_id varchar(20) [unique, not null, note: '관리자 아이디']
+  password varchar(255) [not null]
+  name varchar(20) [not null]
+  role varchar(10) [not null, default: 'ADMIN', note: 'SUPER, ADMIN']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table UserAddress {
+  id bigint [pk, increment]
+  user_id bigint [not null, ref: > EndUser.id]
+  address_name varchar(20) [note: '집, 회사 등']
+  recipient_name varchar(20) [not null]
+  recipient_phone varchar(20) [not null, note: 'Base64']
+  zipcode varchar(10) [not null]
+  address text [not null, note: 'Base64']
+  address_detail varchar(100) [note: 'Base64']
+  is_default boolean [default: false]
+  is_island boolean [default: false]
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table BankAccount {
+  id bigint [pk, increment]
+  owner_id bigint [not null, ref: - Owner.id, note: '점주 1:1']
+  bank_name varchar(20) [not null]
+  account_number varchar(50) [not null, note: 'Base64']
+  account_holder varchar(20) [not null]
+  is_verified boolean [default: false]
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  deleted_at datetime [note: '계좌 삭제 시 기록']
+}
+
+// --------------------------------------------
+// [2] 가게 관련
+// --------------------------------------------
+
+Table Store {
+  id varchar(12) [pk, note: 'ST0000000001 형식']
+  owner_id bigint [not null, ref: > Owner.id]
+  store_name varchar(50) [not null]
+  phone varchar(20) [not null]
+  zipcode varchar(10) [not null]
+  address text [not null]
+  address_detail varchar(100)
+  business_hours text [note: 'v1.0: 텍스트 / v2.0: 별도 테이블 분리 예정']
+  description text
+  youtube_url text
+  instagram_url text
+  status varchar(10) [not null, default: 'ACTIVE']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table StoreImage {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  image_url text [not null]
+  sort_order int [not null, default: 0]
+  created_at datetime [not null, default: `now()`]
+}
+
+Table StoreDeliveryFee {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  base_fee int [not null, default: 0]
+  free_threshold int
+  island_extra_fee int [default: 0]
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+// --------------------------------------------
+// [3] 프로모션 (기획전/쿠폰) - 순서 중요!
+// --------------------------------------------
+
+Table Event {
+  id bigint [pk, increment]
+  title varchar(100) [not null]
+  description text
+  start_at datetime [not null]
+  end_at datetime [not null]
+  is_active boolean [default: true]
+  banner_image_url text
+  created_at datetime [default: `now()`]
+}
+
+Table Coupon {
+  id bigint [pk, increment]
+  store_id varchar(12) [ref: > Store.id, note: 'null이면 본사 쿠폰']
+  name varchar(50) [not null]
+  code varchar(20) [unique]
+  type varchar(10) [not null, note: 'RATE(%), AMOUNT(원)']
+  target_type varchar(10) [not null, default: 'CART']
+  discount_value int [not null]
+  min_order_amount int [default: 0]
+  max_discount_amount int
+  issued_count int [default: 0]
+  limit_count int
+  valid_start_at datetime
+  valid_end_at datetime
+  created_at datetime [default: `now()`]
+}
+
+Table UserCoupon {
+  id bigint [pk, increment]
+  user_id bigint [not null, ref: > EndUser.id]
+  coupon_id bigint [not null, ref: > Coupon.id]
+  is_used boolean [default: false]
+  used_at datetime
+  expires_at datetime [not null]
+  created_at datetime [default: `now()`]
+}
+
+// --------------------------------------------
+// [4] 상품 관련
+// --------------------------------------------
+
+Table Category {
+  id bigint [pk, increment]
+  parent_id bigint [ref: > Category.id]
+  code varchar(10) [unique, not null]
+  name varchar(30) [not null]
+  sort_order int [not null, default: 0]
+  is_active boolean [default: true]
+  created_at datetime [not null, default: `now()`]
+}
+
+Table Product {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  category_id bigint [not null, ref: > Category.id]
+  name varchar(50) [not null]
+  price int [not null, note: '정상가']
+  sale_price int [note: '할인가(null이면 정가)']
+  description varchar(80)
+  image_url text
+  stock int [not null, default: 0]
+  sort_order int [not null, default: 0]
+  status varchar(10) [not null, default: 'ACTIVE']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table EventProduct {
+  id bigint [pk, increment]
+  event_id bigint [not null, ref: > Event.id]
+  product_id bigint [not null, ref: > Product.id]
+  display_order int [default: 0]
+}
+
+Table ProductTag {
+  id bigint [pk, increment]
+  code varchar(10) [unique]
+  name varchar(30)
+  created_at datetime [default: `now()`]
+}
+
+Table ProductTagMapping {
+  id bigint [pk, increment]
+  product_id bigint [not null, ref: > Product.id]
+  tag_id bigint [not null, ref: > ProductTag.id]
+  indexes {
+    (product_id, tag_id) [unique]
+  }
+}
+
+// --------------------------------------------
+// [5] 주문 & 배송 & 환불
+// --------------------------------------------
+
+Table Cart {
+  id bigint [pk, increment]
+  user_id bigint [ref: - EndUser.id]
+  session_id varchar(100)
+  updated_at datetime [note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table CartItem {
+  id bigint [pk, increment]
+  cart_id bigint [not null, ref: > Cart.id]
+  product_id bigint [not null, ref: > Product.id]
+  quantity int [default: 1]
+  created_at datetime [default: `now()`]
+}
+
+Table Order {
+  id bigint [pk, increment]
+  order_number varchar(30) [unique, not null]
+  user_id bigint [not null, ref: > EndUser.id]
+  store_id varchar(12) [not null, ref: > Store.id]
+  
+  user_coupon_id bigint [ref: > UserCoupon.id, note: '사용한 쿠폰']
+  total_product_amount int [not null, note: '상품합계(할인가)']
+  discount_amount int [default: 0, note: '쿠폰할인액']
+  
+  total_amount int [not null, note: '최종결제액']
+  delivery_fee int [not null, default: 0]
+  island_extra_fee int [not null, default: 0]
+  
+  status varchar(20) [not null, default: 'ORD_001']
+  recipient_name varchar(20) [not null]
+  recipient_phone varchar(20) [not null, note: 'Base64']
+  address text [not null, note: 'Base64']
+  ordered_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table OrderItem {
+  id bigint [pk, increment]
+  order_id bigint [not null, ref: > Order.id]
+  product_id bigint [not null, ref: > Product.id]
+  product_name varchar(50) [not null, note: '주문 시점 스냅샷']
+  product_price int [not null, note: '주문 시점 스냅샷']
+  quantity int [not null]
+  subtotal int [not null]
+  created_at datetime [not null, default: `now()`]
+}
+
+Table Shipping {
+  id bigint [pk, increment]
+  order_id bigint [not null, ref: - Order.id]
+  carrier_code varchar(20)
+  tracking_number varchar(30)
+  status varchar(20) [not null, default: 'READY']
+  shipped_at datetime
+  delivered_at datetime
+  created_at datetime [default: `now()`]
+  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table Payment {
+  id bigint [pk, increment]
+  order_id bigint [not null, ref: - Order.id]
+  payment_key varchar(100)
+  amount int [not null]
+  status varchar(20)
+  created_at datetime [default: `now()`]
+}
+
+Table Refund {
+  id bigint [pk, increment]
+  payment_id bigint [not null, ref: > Payment.id]
+  order_id bigint [not null, ref: > Order.id]
+  amount int [not null]
+  reason varchar(200)
+  status varchar(20) [not null]
+  refunded_at datetime
+  created_at datetime [default: `now()`]
+  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table Settlement {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  year_month varchar(7) [not null]
+  total_sales int [default: 0]
+  settlement_amount int [default: 0]
+  status varchar(20) [default: 'PENDING']
+  settled_at datetime
+  created_at datetime [default: `now()`]
+  indexes {
+    (store_id, year_month) [unique]
+  }
+}
+
+// --------------------------------------------
+// [6] 커뮤니티 & 기타
+// --------------------------------------------
+
+Table Review {
+  id bigint [pk, increment]
+  order_item_id bigint [not null, ref: > OrderItem.id]
+  user_id bigint [not null, ref: > EndUser.id]
+  store_id varchar(12) [not null, ref: > Store.id]
+  product_id bigint [not null, ref: > Product.id]
+  content text [not null]
+  rating int
+  status varchar(10) [default: 'ACTIVE']
+  created_at datetime [default: `now()`]
+  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table ReviewImage {
+  id bigint [pk, increment]
+  review_id bigint [not null, ref: > Review.id]
+  image_url text [not null]
+  sort_order int [default: 0]
+  created_at datetime [default: `now()`]
+}
+
+Table QnA {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  product_id bigint [ref: > Product.id]
+  user_id bigint [not null, ref: > EndUser.id]
+  question text [not null]
+  answer text
+  answered_by bigint [ref: > Owner.id]
+  answered_at datetime
+  is_secret boolean [default: false]
+  status varchar(10) [default: 'WAITING']
+  created_at datetime [default: `now()`]
+  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+}
+
+Table FAQ {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  question varchar(100) [not null]
+  answer text [not null]
+  sort_order int [default: 0]
+  created_at datetime [default: `now()`]
+}
+
+Table Notification {
+  id bigint [pk, increment]
+  user_id bigint [not null, ref: > EndUser.id]
+  target_store_id varchar(12) [ref: > Store.id]
+  type varchar(20) [not null]
+  title varchar(100)
+  content varchar(500)
+  link_url text
+  is_read boolean [default: false]
+  created_at datetime [default: `now()`]
+}
+
+Table AuthLog {
+  id bigint [pk, increment]
+  user_type varchar(10)
+  user_id bigint
+  action varchar(20)
+  ip_address varchar(50)
+  created_at datetime [default: `now()`]
+}
+
+Table AdminLog {
+  id bigint [pk, increment]
+  master_id bigint [not null, ref: > Master.id]
+  action varchar(30)
+  target_type varchar(20)
+  target_id bigint
+  detail text
+  created_at datetime [default: `now()`]
+}
+
+Table Banner {
+  id bigint [pk, increment]
+  title varchar(50)
+  image_url text
+  created_by bigint [not null, ref: > Master.id]
+  created_at datetime [default: `now()`]
+}
+
+Table Popup {
+  id bigint [pk, increment]
+  title varchar(50)
+  image_url text
+  created_by bigint [not null, ref: > Master.id]
+  created_at datetime [default: `now()`]
+}
+
+Table Report {
+  id bigint [pk, increment]
+  reporter_id bigint [not null, ref: > EndUser.id]
+  target_type varchar(20)
+  target_id bigint
+  reason_detail varchar(300)
+  status varchar(20)
+  reviewed_by bigint [ref: > Master.id]
+  action_taken varchar(50)
+  created_at datetime [default: `now()`]
+}
+
+Table DailyStat {
+  id bigint [pk, increment]
+  store_id varchar(12) [not null, ref: > Store.id]
+  stat_date date
+  total_sales int
+  created_at datetime [default: `now()`]
+  indexes {
+    (store_id, stat_date) [unique]
+  }
+}
+
+// --------------------------------------------
+// [7] 시각적 그룹핑
+// --------------------------------------------
+
+TableGroup UserGroup {
+  EndUser
+  Owner
+  Master
+  UserAddress
+  BankAccount
+  AuthLog
+  AdminLog
+}
+
+TableGroup StoreGroup {
+  Store
+  StoreImage
+  StoreDeliveryFee
+  DailyStat
+  Settlement
+}
+
+TableGroup ProductGroup {
+  Category
+  Product
+  ProductTag
+  ProductTagMapping
+}
+
+TableGroup PromotionGroup {
+  Event
+  EventProduct
+  Coupon
+  UserCoupon
+}
+
+TableGroup OrderGroup {
+  Cart
+  CartItem
+  Order
+  OrderItem
+  Payment
+  Refund
+  Shipping
+}
+
+TableGroup CommunityGroup {
+  Review
+  ReviewImage
+  QnA
+  FAQ
+  Report
+  Notification
+  Banner
+  Popup
+}
