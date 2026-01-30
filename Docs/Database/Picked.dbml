@@ -1,8 +1,9 @@
 // ============================================
-// 먹신사(리그 오브 디저트) ERD v1.4 (Integrated)
+// 먹신사(리그 오브 디저트) ERD v1.5
 // 작성자: CTO & AI Engineer
 // 작성일: 2026-01-29
-// 내용: 회원분리 + 쿠폰/할인/기획전(마켓컬리 정책) 통합 버전
+// 변경: Store ID 포맷, Cart nullable, Banner/Popup 운영컬럼, 
+//       Coupon target_type, Review rating 필수화, not null 일관성
 // ============================================
 
 // --------------------------------------------
@@ -80,7 +81,7 @@ Table BankAccount {
 // --------------------------------------------
 
 Table Store {
-  id varchar(12) [pk, note: 'ST0000000001 형식']
+  id varchar(12) [pk, note: 'store0000001 형식']
   owner_id bigint [not null, ref: > Owner.id]
   store_name varchar(50) [not null]
   phone varchar(20) [not null]
@@ -115,7 +116,7 @@ Table StoreDeliveryFee {
 }
 
 // --------------------------------------------
-// [3] 프로모션 (기획전/쿠폰) - 순서 중요!
+// [3] 프로모션 (기획전/쿠폰)
 // --------------------------------------------
 
 Table Event {
@@ -126,7 +127,7 @@ Table Event {
   end_at datetime [not null]
   is_active boolean [default: true]
   banner_image_url text
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table Coupon {
@@ -135,7 +136,7 @@ Table Coupon {
   name varchar(50) [not null]
   code varchar(20) [unique]
   type varchar(10) [not null, note: 'RATE(%), AMOUNT(원)']
-  target_type varchar(10) [not null, default: 'CART']
+  target_type varchar(10) [not null, default: 'CART', note: 'CART(장바구니), PRODUCT(특정상품), DELIVERY(배송비)']
   discount_value int [not null]
   min_order_amount int [default: 0]
   max_discount_amount int
@@ -143,7 +144,7 @@ Table Coupon {
   limit_count int
   valid_start_at datetime
   valid_end_at datetime
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table UserCoupon {
@@ -153,7 +154,7 @@ Table UserCoupon {
   is_used boolean [default: false]
   used_at datetime
   expires_at datetime [not null]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 // --------------------------------------------
@@ -197,7 +198,7 @@ Table ProductTag {
   id bigint [pk, increment]
   code varchar(10) [unique]
   name varchar(30)
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table ProductTagMapping {
@@ -215,8 +216,8 @@ Table ProductTagMapping {
 
 Table Cart {
   id bigint [pk, increment]
-  user_id bigint [ref: - EndUser.id]
-  session_id varchar(100)
+  user_id bigint [ref: - EndUser.id, note: '비로그인 시 null']
+  session_id varchar(100) [note: '비로그인 장바구니용']
   updated_at datetime [note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
@@ -225,7 +226,7 @@ Table CartItem {
   cart_id bigint [not null, ref: > Cart.id]
   product_id bigint [not null, ref: > Product.id]
   quantity int [default: 1]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table Order {
@@ -269,8 +270,8 @@ Table Shipping {
   status varchar(20) [not null, default: 'READY']
   shipped_at datetime
   delivered_at datetime
-  created_at datetime [default: `now()`]
-  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table Payment {
@@ -279,7 +280,7 @@ Table Payment {
   payment_key varchar(100)
   amount int [not null]
   status varchar(20)
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table Refund {
@@ -290,8 +291,8 @@ Table Refund {
   reason varchar(200)
   status varchar(20) [not null]
   refunded_at datetime
-  created_at datetime [default: `now()`]
-  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table Settlement {
@@ -302,7 +303,7 @@ Table Settlement {
   settlement_amount int [default: 0]
   status varchar(20) [default: 'PENDING']
   settled_at datetime
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
   indexes {
     (store_id, year_month) [unique]
   }
@@ -319,10 +320,10 @@ Table Review {
   store_id varchar(12) [not null, ref: > Store.id]
   product_id bigint [not null, ref: > Product.id]
   content text [not null]
-  rating int
+  rating int [not null, note: '1~10점 (짝수=별, 홀수=반별)']
   status varchar(10) [default: 'ACTIVE']
-  created_at datetime [default: `now()`]
-  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table ReviewImage {
@@ -330,7 +331,7 @@ Table ReviewImage {
   review_id bigint [not null, ref: > Review.id]
   image_url text [not null]
   sort_order int [default: 0]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table QnA {
@@ -344,8 +345,8 @@ Table QnA {
   answered_at datetime
   is_secret boolean [default: false]
   status varchar(10) [default: 'WAITING']
-  created_at datetime [default: `now()`]
-  updated_at datetime [default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table FAQ {
@@ -354,7 +355,7 @@ Table FAQ {
   question varchar(100) [not null]
   answer text [not null]
   sort_order int [default: 0]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table Notification {
@@ -366,16 +367,16 @@ Table Notification {
   content varchar(500)
   link_url text
   is_read boolean [default: false]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table AuthLog {
   id bigint [pk, increment]
-  user_type varchar(10)
-  user_id bigint
+  user_type varchar(10) [note: 'ENDUSER, OWNER, MASTER (다형성 참조)']
+  user_id bigint [note: 'user_type에 따라 참조 테이블 결정']
   action varchar(20)
   ip_address varchar(50)
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table AdminLog {
@@ -385,23 +386,35 @@ Table AdminLog {
   target_type varchar(20)
   target_id bigint
   detail text
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table Banner {
   id bigint [pk, increment]
   title varchar(50)
   image_url text
+  link_url text [note: '클릭 시 이동 URL']
+  sort_order int [not null, default: 0]
+  is_active boolean [not null, default: true]
+  start_at datetime [note: '노출 시작일']
+  end_at datetime [note: '노출 종료일']
   created_by bigint [not null, ref: > Master.id]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table Popup {
   id bigint [pk, increment]
   title varchar(50)
   image_url text
+  link_url text [note: '클릭 시 이동 URL']
+  sort_order int [not null, default: 0]
+  is_active boolean [not null, default: true]
+  start_at datetime [note: '노출 시작일']
+  end_at datetime [note: '노출 종료일']
   created_by bigint [not null, ref: > Master.id]
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
+  updated_at datetime [not null, default: `now()`, note: 'ON UPDATE CURRENT_TIMESTAMP']
 }
 
 Table Report {
@@ -411,9 +424,9 @@ Table Report {
   target_id bigint
   reason_detail varchar(300)
   status varchar(20)
-  reviewed_by bigint [ref: > Master.id]
+  reviewed_by bigint [ref: > Master.id, note: '신고를 검토한 관리자 ID']
   action_taken varchar(50)
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
 }
 
 Table DailyStat {
@@ -421,7 +434,7 @@ Table DailyStat {
   store_id varchar(12) [not null, ref: > Store.id]
   stat_date date
   total_sales int
-  created_at datetime [default: `now()`]
+  created_at datetime [not null, default: `now()`]
   indexes {
     (store_id, stat_date) [unique]
   }
