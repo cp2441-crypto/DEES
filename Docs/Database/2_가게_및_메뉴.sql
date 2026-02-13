@@ -12,8 +12,6 @@ CREATE TABLE stores (
     address_detail VARCHAR(100),
     phone VARCHAR(20) NOT NULL,
     business_hours TEXT, -- JSON 형식
-    latitude DECIMAL(10,8) NOT NULL,
-    longitude DECIMAL(11,8) NOT NULL,
     thumbnail_image VARCHAR(500),
     status VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'suspended', 'closed')),
     views_count INT DEFAULT 0,
@@ -24,7 +22,6 @@ CREATE TABLE stores (
 
 -- 인덱스
 CREATE INDEX idx_stores_owner_id ON stores(owner_id);
-CREATE INDEX idx_stores_location ON stores(latitude, longitude);
 CREATE INDEX idx_stores_status ON stores(status);
 
 -- 코멘트
