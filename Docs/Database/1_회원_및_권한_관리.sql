@@ -79,7 +79,6 @@ CREATE TABLE owner_profiles (
     business_name VARCHAR(100) NOT NULL,
     representative_name VARCHAR(50) NOT NULL, -- 대표자명
     business_address VARCHAR(200) NOT NULL,
-    business_type VARCHAR(50),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
