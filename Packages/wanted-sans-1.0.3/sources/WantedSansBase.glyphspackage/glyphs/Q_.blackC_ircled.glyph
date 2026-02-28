@@ -1,0 +1,168 @@
+{
+color = 4;
+glyphname = Q.blackCircled;
+kernLeft = O;
+kernRight = O;
+layers = (
+{
+associatedMasterId = "94F54C43-8AEE-4ED6-B3C2-2A9D33534E61";
+layerId = "C9321645-C5FF-470D-96B7-83915701A879";
+name = Original;
+shapes = (
+{
+alignment = 1;
+ref = blackCircle;
+},
+{
+alignment = 1;
+attr = {
+reversePaths = 1;
+};
+pos = (522,0);
+ref = _part.symbol.Q.black;
+}
+);
+width = 1974;
+},
+{
+associatedMasterId = m01;
+layerId = "615415D3-60E5-4678-9D8C-AFE115D43482";
+name = Original;
+shapes = (
+{
+alignment = 1;
+ref = blackCircle;
+},
+{
+alignment = 1;
+attr = {
+reversePaths = 1;
+};
+pos = (494,0);
+ref = _part.symbol.Q.black;
+}
+);
+width = 1878;
+},
+{
+layerId = m01;
+name = Regular;
+shapes = (
+{
+alignment = 1;
+ref = blackCircle;
+},
+{
+closed = 1;
+nodes = (
+(706,330,o),
+(536,500,o),
+(536,724,cs),
+(536,948,o),
+(706,1118,o),
+(934,1118,cs),
+(1160,1118,o),
+(1330,948,o),
+(1330,724,cs),
+(1330,598,o),
+(1278,490,o),
+(1190,420,c),
+(1304,266,l),
+(1146,266,l),
+(1080,356,l),
+(1036,340,o),
+(986,330,o),
+(934,330,cs)
+);
+},
+{
+closed = 1;
+nodes = (
+(956,462,o),
+(976,464,o),
+(996,468,c),
+(916,578,l),
+(1074,578,l),
+(1110,528,l),
+(1160,576,o),
+(1190,644,o),
+(1190,724,cs),
+(1190,876,o),
+(1084,986,o),
+(934,986,cs),
+(782,986,o),
+(676,876,o),
+(676,724,cs),
+(676,572,o),
+(782,462,o),
+(934,462,cs)
+);
+}
+);
+width = 1878;
+},
+{
+layerId = "94F54C43-8AEE-4ED6-B3C2-2A9D33534E61";
+name = Super;
+shapes = (
+{
+alignment = 1;
+ref = blackCircle;
+},
+{
+closed = 1;
+nodes = (
+(736,310,o),
+(556,488,o),
+(556,724,cs),
+(556,960,o),
+(736,1138,o),
+(976,1138,cs),
+(1216,1138,o),
+(1396,960,o),
+(1396,724,cs),
+(1396,598,o),
+(1344,488,o),
+(1260,414,c),
+(1394,242,l),
+(1152,242,l),
+(1088,324,l),
+(1052,314,o),
+(1016,310,o),
+(976,310,cs)
+);
+},
+{
+closed = 1;
+nodes = (
+(934,520,o),
+(934,520,o),
+(934,520,c),
+(880,588,l),
+(1122,588,l),
+(1128,582,l),
+(1160,618,o),
+(1178,666,o),
+(1178,724,cs),
+(1178,846,o),
+(1094,934,o),
+(976,934,cs),
+(858,934,o),
+(774,846,o),
+(774,724,cs),
+(774,618,o),
+(838,538,o),
+(934,520,c)
+);
+}
+);
+width = 1974;
+}
+);
+metricLeft = blackCircle;
+metricRight = blackCircle;
+note = "$SYMBOL_LETTER
+$SYMBOL_FILL
+$SYMBOL_CIRCLE";
+unicode = 127328;
+}
