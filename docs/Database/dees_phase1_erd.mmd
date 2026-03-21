@@ -1,0 +1,74 @@
+erDiagram
+    USERS ||--o| OWNER_DETAILS : "has (P3)"
+    USERS ||--o{ STORES : "owns"
+    USERS ||--o{ CURATION_CONTENTS : "writes"
+    USERS ||--o{ CAMPAIGNS : "creates"
+    STORES ||--o{ STORE_IMAGES : "has"
+    STORES ||--o{ STORE_CATEGORIES : "categorized as"
+    STORES ||--o{ PRODUCTS : "sells"
+    PRODUCTS ||--o{ PRODUCT_TAGS : "tagged with"
+    TAGS ||--o{ PRODUCT_TAGS : "applies to"
+
+    USERS {
+        uuid id PK
+        string role "SUPER_MASTER, MASTER, OWNER, END_USER"
+        string username
+        string email
+        string password
+        string nickname
+        string profile_icon_url
+        string preferred_region
+        string tier "P2: 초콜릿, 마카롱 등"
+        string status "ACTIVE, SUSPENDED, DELETED"
+        timestamp created_at
+        timestamp deleted_at
+    }
+    OWNER_DETAILS {
+        uuid user_id PK, FK
+        string biz_reg_no
+        string rep_name
+        string bank_code "P3"
+        string account_no "P3"
+    }
+    STORES {
+        uuid id PK
+        uuid owner_id FK
+        string name
+        string address
+        string contact
+        string status "OPEN, TEMP_CLOSED, PERM_CLOSED"
+        int delivery_fee "P3"
+        timestamp created_at
+    }
+    PRODUCTS {
+        uuid id PK
+        uuid store_id FK
+        string name
+        int price
+        string status "ON_SALE, SOLD_OUT, HIDDEN"
+        int stock_quantity "P3"
+    }
+    TAGS {
+        string code PK "TAG-VGN, ALG-EGG 등"
+        string type "HEALTH, ALLERGY"
+        string name
+    }
+    PRODUCT_TAGS {
+        uuid product_id PK, FK
+        string tag_code PK, FK
+    }
+    CURATION_CONTENTS {
+        uuid id PK
+        string type_code "BRS, FCT, WTE, ETW, WDI"
+        uuid master_id FK
+        string title
+        string status "DRAFT, PUBLISHED"
+    }
+    CAMPAIGNS {
+        uuid id PK
+        uuid creator_id FK
+        string type "BANNER_TOP, BANNER_MID, POPUP"
+        string title
+        boolean is_ad_label_required
+        string status "RESERVED, ACTIVE, ENDED"
+    }
