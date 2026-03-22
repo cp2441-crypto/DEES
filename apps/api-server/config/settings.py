@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'curation',
-    'shops',
 ]
 
 MIDDLEWARE = [
@@ -80,18 +78,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# 상용 DB 설정
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'dees_db',
+#        'USER': 'ADMIN',
+#        'PASSWORD': 'Deesgoforit260122',
+#        'HOST': '158.180.94.179',
+#        'PORT': '5432'
+#    }
+#}
 
+# 로컬 테스트용 DB 설정
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dees_db',
-        'USER': 'postgres',
-        'PASSWORD': 'deesgoforit260122',
-        'HOST': '158.180.94.179',
-        'PORT': '5432'
+        'NAME': 'BASE_DIR / "db.sqlite3"',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
