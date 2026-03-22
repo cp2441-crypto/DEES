@@ -1,1 +1,3 @@
 .DS_Store
+apps/api-server/.venv/
+apps/backend/venv/
